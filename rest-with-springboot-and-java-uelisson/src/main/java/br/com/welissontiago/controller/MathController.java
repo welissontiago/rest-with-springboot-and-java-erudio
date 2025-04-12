@@ -39,10 +39,10 @@ public class MathController {
         return (convertToDouble(numberOne) + convertToDouble(numberTwo)) / 2;
     }
 
-    @RequestMapping("squareRoot/{numberOne}/{numberTwo}")
-    public Double Root(@PathVariable("numberOne") String numberOne, @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if(!isNumeric(numberOne) || !isNumeric(numberTwo)) throw new UnsupportMathOperationException("Please set a numeric value");
-        return Math.pow(convertToDouble(numberOne), convertToDouble(numberTwo));
+    @RequestMapping("squareRoot/{number}")
+    public Double Root(@PathVariable("number") String number throws Exception {
+        if(!isNumeric(number) ) throw new UnsupportMathOperationException("Please set a numeric value");
+        return Math.sqrt(convertToDouble(number));
     }
 
     private Double convertToDouble(String strNumber) throws IllegalArgumentException{
