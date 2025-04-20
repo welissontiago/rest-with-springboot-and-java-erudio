@@ -7,18 +7,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
 
     @Autowired
     private PersonService personService;
 
-    @GetMapping (produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping (value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonDTO findById(@PathVariable("id") Long id) {
-        return personService.findById(id);
+        var person = personService.findById(id);
+        person.setBirthDate(new Date());
+        person.setSensitiveData("minhaSenhaÉlegal");
+        return person;
     }
 
     @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
