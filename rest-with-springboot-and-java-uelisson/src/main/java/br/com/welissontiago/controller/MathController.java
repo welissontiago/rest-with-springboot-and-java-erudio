@@ -1,6 +1,5 @@
-package br.com.welissontiago.controller;
+/*package br.com.welissontiago.controller;
 
-import br.com.welissontiago.exceptions.UnsupportMathOperationException;
 import br.com.welissontiago.service.MathService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,3 +41,4 @@ public class MathController {
         return mathService.squareRoot(number);
     }
 }
+*/

@@ -1,4 +1,4 @@
-package br.com.welissontiago.service;
+/*package br.com.welissontiago.service;
 
 import br.com.welissontiago.exceptions.UnsupportMathOperationException;
 import org.springframework.stereotype.Service;
@@ -51,3 +51,4 @@ public class MathService {
     }
 
 }
+*/

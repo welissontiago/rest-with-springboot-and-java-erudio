@@ -1,19 +1,29 @@
 package br.com.welissontiago.model;
 
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "person")
 public class PersonModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "Fisrt_Name", nullable = false, length = 50)
     private String firstName;
+    @Column(name = "Last_Name", nullable = false, length = 50)
     private String lastName;
+    @Column(nullable = false, length = 100)
     private String address;
+    @Column(nullable = false, length = 6)
     private String gender;
+
 
 
     public Long getId() {
