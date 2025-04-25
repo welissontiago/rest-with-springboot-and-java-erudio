@@ -1,17 +1,11 @@
 package br.com.welissontiago.dto.v1;
 
-import br.com.welissontiago.serialize.GenderSerializer;
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
-import java.util.Date;
 
-@JsonPropertyOrder({"id", "firstName","lastName","address","gender",})
-@JsonFilter("PersonFilter")
-public class PersonDTO implements Serializable {
+
+public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,12 +13,8 @@ public class PersonDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String address;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date birthDate;
-    @JsonSerialize(using = GenderSerializer.class)
     private String gender;
 
-    private String sensitiveData;
 
     public Long getId() {
         return id;
@@ -66,19 +56,5 @@ public class PersonDTO implements Serializable {
         this.gender = gender;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getSensitiveData() {
-        return sensitiveData;
-    }
-
-    public void setSensitiveData(String sensitiveData) {
-        this.sensitiveData = sensitiveData;
-    }
 }

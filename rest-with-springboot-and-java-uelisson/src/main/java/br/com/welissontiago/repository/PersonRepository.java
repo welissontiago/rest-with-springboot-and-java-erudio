@@ -1,4 +1,4 @@
-package br.com.welissontiago;
+package br.com.welissontiago.repository;
 
 import br.com.welissontiago.model.PersonModel;
 import org.springframework.data.jpa.repository.JpaRepository;
