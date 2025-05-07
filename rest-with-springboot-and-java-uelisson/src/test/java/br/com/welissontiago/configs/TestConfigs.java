@@ -6,4 +6,5 @@ public interface TestConfigs {
     String HEADER_PARAM_ORIGIN = "Origin";
     String ORIGIN_UELISSON = "http://uelissonTiago.com.br";
     String ORIGIN_3000 = "http://localhost:3000";
+    String ORIGIN_LOCAL = "http://localhost:8080";
 }

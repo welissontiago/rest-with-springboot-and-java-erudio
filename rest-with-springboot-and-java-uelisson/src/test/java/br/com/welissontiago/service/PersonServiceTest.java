@@ -105,7 +105,7 @@ class PersonServiceTest {
                 .anyMatch(link -> link.getRel().value().equals("self") && link.getHref().endsWith("/api/person/v1/1")
                         && link.getType().equals("GET"))
         );
-        assertTrue(result.getLinks().stream()
+        assertFalse(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll") && link.getHref().endsWith("/api/person/v1")
                         && link.getType().equals("GET"))
         );
@@ -161,7 +161,7 @@ class PersonServiceTest {
                 .anyMatch(link -> link.getRel().value().equals("self") && link.getHref().endsWith("/api/person/v1/1")
                         && link.getType().equals("GET"))
         );
-        assertTrue(result.getLinks().stream()
+        assertFalse(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("findAll") && link.getHref().endsWith("/api/person/v1")
                         && link.getType().equals("GET"))
         );

@@ -1,14 +1,15 @@
-package br.com.welissontiago.dto.v1;
+package br.com.welissontiago.IntegrationTests.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.core.Relation;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-@Relation(collectionRelation = "Books")
-public class BooksDTO extends RepresentationModel<BooksDTO> implements Serializable {
+@XmlRootElement(name = "bookDTO")
+public class BookDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -17,6 +18,8 @@ public class BooksDTO extends RepresentationModel<BooksDTO> implements Serializa
     private Date launch_date;
     private Double price;
     private String title;
+
+    public BookDTO() {}
 
     public Long getId() {
         return id;
@@ -34,14 +37,6 @@ public class BooksDTO extends RepresentationModel<BooksDTO> implements Serializa
         this.author = author;
     }
 
-    public Date getLaunch_date() {
-        return launch_date;
-    }
-
-    public void setLaunch_date(Date launch_date) {
-        this.launch_date = launch_date;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -57,4 +52,13 @@ public class BooksDTO extends RepresentationModel<BooksDTO> implements Serializa
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public Date getLaunch_date() {
+        return launch_date;
+    }
+
+    public void setLaunch_date(Date launch_date) {
+        this.launch_date = launch_date;
+    }
 }
+

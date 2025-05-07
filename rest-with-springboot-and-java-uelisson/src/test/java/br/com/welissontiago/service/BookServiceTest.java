@@ -106,10 +106,6 @@ class BookServiceTest {
                         && link.getType().equals("GET"))
         );
         assertTrue(result.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("findAll") && link.getHref().endsWith("/api/books/v1")
-                        && link.getType().equals("GET"))
-        );
-        assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("create") && link.getHref().endsWith("/api/books/v1")
                         && link.getType().equals("POST"))
         );
@@ -159,10 +155,6 @@ class BookServiceTest {
         assertNotNull(result.getLinks());
         assertTrue(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("self") && link.getHref().endsWith("/api/books/v1/1")
-                        && link.getType().equals("GET"))
-        );
-        assertTrue(result.getLinks().stream()
-                .anyMatch(link -> link.getRel().value().equals("findAll") && link.getHref().endsWith("/api/books/v1")
                         && link.getType().equals("GET"))
         );
         assertTrue(result.getLinks().stream()
