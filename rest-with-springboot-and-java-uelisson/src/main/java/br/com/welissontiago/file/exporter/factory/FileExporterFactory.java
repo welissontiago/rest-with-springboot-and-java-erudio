@@ -2,7 +2,7 @@ package br.com.welissontiago.file.exporter.factory;
 
 import br.com.welissontiago.exceptions.BadRequestException;
 import br.com.welissontiago.file.exporter.MediaTypes;
-import br.com.welissontiago.file.exporter.contract.FileExporter;
+import br.com.welissontiago.file.exporter.contract.PersonExporter;
 import br.com.welissontiago.file.exporter.implement.CsvExporter;
 import br.com.welissontiago.file.exporter.implement.PdfExporter;
 import br.com.welissontiago.file.exporter.implement.XlsxExporter;
@@ -20,7 +20,7 @@ public class FileExporterFactory {
     @Autowired
     private ApplicationContext context;
 
-    public FileExporter getExporter(String acceptHeader) throws Exception {
+    public PersonExporter getExporter(String acceptHeader) throws Exception {
         if(acceptHeader.equalsIgnoreCase(MediaTypes.APPLICATION_XLSX_VALUE)) {
            return context.getBean(XlsxExporter.class);
         }else if(acceptHeader.equalsIgnoreCase(MediaTypes.APPLICATION_CSV_VALUE)) {

@@ -2,8 +2,7 @@ package br.com.welissontiago.service;
 
 import br.com.welissontiago.exceptions.BadRequestException;
 import br.com.welissontiago.exceptions.FileStorageException;
-import br.com.welissontiago.file.exporter.MediaTypes;
-import br.com.welissontiago.file.exporter.contract.FileExporter;
+import br.com.welissontiago.file.exporter.contract.PersonExporter;
 import br.com.welissontiago.file.exporter.factory.FileExporterFactory;
 import br.com.welissontiago.file.importer.contract.FileImporter;
 import br.com.welissontiago.file.importer.factory.FileImporterFactory;
@@ -12,7 +11,7 @@ import br.com.welissontiago.controller.PersonController;
 import br.com.welissontiago.dto.v1.PersonDTO;
 import br.com.welissontiago.exceptions.RequiredObjectisNullException;
 import br.com.welissontiago.exceptions.ResourceNotFoundException;
-import static br.com.welissontiago.mapper.ObjectMapper.parseListObject;
+
 import static br.com.welissontiago.mapper.ObjectMapper.parseObject;
 import br.com.welissontiago.model.PersonModel;
 import jakarta.transaction.Transactional;
@@ -23,7 +22,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -34,7 +32,6 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
@@ -95,8 +92,8 @@ public class PersonService {
         logger.info("Export people page");
         var people = personRepository.findAll(pageable).map(p -> parseObject(p, PersonDTO.class)).getContent();
         try {
-            FileExporter exporter = this.exporter.getExporter(acceptHeader);
-            return exporter.exportFile(people);
+            PersonExporter exporter = this.exporter.getExporter(acceptHeader);
+            return exporter.exportPeople(people);
         } catch (Exception e) {
             throw new RuntimeException("Error export file",e);
         }
@@ -171,7 +168,7 @@ public class PersonService {
                 .map(entity -> parseObject(entity, PersonDTO.class))
                 .orElseThrow(() -> new ResourceNotFoundException("Person not found"));
         try {
-            FileExporter exporter = this.exporter.getExporter(acceptHeard);
+            PersonExporter exporter = this.exporter.getExporter(acceptHeard);
             return exporter.exportPerson(person);
         } catch (Exception e) {
             throw new RuntimeException("Error export file", e);

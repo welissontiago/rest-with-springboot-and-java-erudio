@@ -35,12 +35,11 @@ public interface PersonControllerDocs {
     )
     PersonDTO findById(@PathVariable("id") Long id);
 
-    @Operation(summary = "Finds a Person",
-            description = "Find a specific person by your id",
+    @Operation(summary = "Export person PDF",
+            description = "Export a PDF data Person",
             tags = "Peoples",
-            responses = {@ApiResponse(description = "Success",
-                    responseCode = "200", content = @Content(schema = @Schema(implementation = PersonDTO.class))
-            ),
+            responses = {@ApiResponse(description = "Success", responseCode = "200", content =
+            @Content(mediaType = MediaTypes.APPLICATION_PDF_VALUE)),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
@@ -51,11 +50,12 @@ public interface PersonControllerDocs {
     ResponseEntity<Resource> export(@PathVariable("id") Long id, HttpServletRequest request);
 
 
-    @Operation(summary = "Export person PDF",
-            description = "Export a PDF data Person",
+    @Operation(summary = "Find all Person",
+            description = "Find all person by your id",
             tags = "Peoples",
-            responses = {@ApiResponse(description = "Success", responseCode = "200", content =
-                    @Content(mediaType = MediaTypes.APPLICATION_PDF_VALUE)),
+            responses = {@ApiResponse(description = "Success",
+                    responseCode = "200", content = @Content(schema = @Schema(implementation = PersonDTO.class))
+            ),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),

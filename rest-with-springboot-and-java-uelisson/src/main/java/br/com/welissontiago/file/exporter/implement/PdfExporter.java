@@ -1,7 +1,7 @@
 package br.com.welissontiago.file.exporter.implement;
 
 import br.com.welissontiago.dto.v1.PersonDTO;
-import br.com.welissontiago.file.exporter.contract.FileExporter;
+import br.com.welissontiago.file.exporter.contract.PersonExporter;
 import br.com.welissontiago.service.QrCodeService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -19,13 +19,13 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class PdfExporter implements FileExporter {
+public class PdfExporter implements PersonExporter {
 
     @Autowired
     private QrCodeService service;
 
     @Override
-    public Resource exportFile(List<PersonDTO> people) throws IOException {
+    public Resource exportPeople(List<PersonDTO> people) throws IOException {
         InputStream inputStream = getClass().getResourceAsStream("/templates/People.jrxml");
         if (inputStream == null) {
             throw new RuntimeException("Template not found");
