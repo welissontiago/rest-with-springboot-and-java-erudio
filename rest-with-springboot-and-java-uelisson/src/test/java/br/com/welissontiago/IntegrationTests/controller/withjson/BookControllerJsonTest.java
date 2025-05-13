@@ -186,9 +186,9 @@ class BookControllerJsonTest extends AbstractIntegrationTest {
         assertNotNull(foundBookFive.getAuthor());
         assertNotNull(foundBookFive.getPrice());
         assertTrue(foundBookFive.getId() > 0);
-        assertEquals("Java Concurrency in Practice", foundBookFive.getTitle());
-        assertEquals("Brian Goetz e Tim Peierls", foundBookFive.getAuthor());
-        assertEquals(80.0, foundBookFive.getPrice());
+        assertEquals("The Pragmatic Programmer", foundBookFive.getTitle());
+        assertEquals("Andrew Hunt e David Thomas", foundBookFive.getAuthor());
+        assertEquals(115.58, foundBookFive.getPrice());
     }
 
     private void mockBook() {

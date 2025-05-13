@@ -165,6 +165,20 @@ public class PersonService {
         return dto;
     }
 
+    public Resource exportPerson(Long id, String acceptHeard) {
+        logger.info("Exporting data of one person ");
+        var person = personRepository.findById(id)
+                .map(entity -> parseObject(entity, PersonDTO.class))
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found"));
+        try {
+            FileExporter exporter = this.exporter.getExporter(acceptHeard);
+            return exporter.exportPerson(person);
+        } catch (Exception e) {
+            throw new RuntimeException("Error export file", e);
+        }
+
+    }
+
 
 
     private void addHateoasLinks(PersonDTO dto) {

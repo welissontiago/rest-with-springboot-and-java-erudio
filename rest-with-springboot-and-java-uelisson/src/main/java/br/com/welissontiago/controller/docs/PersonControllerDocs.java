@@ -35,14 +35,27 @@ public interface PersonControllerDocs {
     )
     PersonDTO findById(@PathVariable("id") Long id);
 
-
-    @Operation(summary = "Find All People",
-            description = "Finds All People",
+    @Operation(summary = "Finds a Person",
+            description = "Find a specific person by your id",
             tags = "Peoples",
             responses = {@ApiResponse(description = "Success",
-                    responseCode = "200", content = {
-                    @Content(schema = @Schema(implementation = PersonDTO.class)),
-            }),
+                    responseCode = "200", content = @Content(schema = @Schema(implementation = PersonDTO.class))
+            ),
+                    @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
+            }
+    )
+    ResponseEntity<Resource> export(@PathVariable("id") Long id, HttpServletRequest request);
+
+
+    @Operation(summary = "Export person PDF",
+            description = "Export a PDF data Person",
+            tags = "Peoples",
+            responses = {@ApiResponse(description = "Success", responseCode = "200", content =
+                    @Content(mediaType = MediaTypes.APPLICATION_PDF_VALUE)),
                     @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
                     @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
                     @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
