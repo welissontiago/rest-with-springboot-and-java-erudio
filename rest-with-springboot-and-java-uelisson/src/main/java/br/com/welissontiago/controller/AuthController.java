@@ -1,5 +1,7 @@
 package br.com.welissontiago.controller;
 
+import br.com.welissontiago.controller.docs.AuthControllerDocs;
+import br.com.welissontiago.dto.v1.PersonDTO;
 import br.com.welissontiago.dto.v1.security.TokenDTO;
 import br.com.welissontiago.dto.v1.security.UserCredentialsDTO;
 import br.com.welissontiago.service.AuthService;
@@ -8,19 +10,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Authenticate endpoint")
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController implements AuthControllerDocs {
 
     @Autowired
     private AuthService authService;
 
-    @Operation(summary = "Authenticates an user and returns a token")
     @PostMapping("/signin")
+    @Override
     public ResponseEntity<?> signin(@RequestBody UserCredentialsDTO userCredentials) {
         if(credentialsInvalid(userCredentials)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Credencials invalid");
@@ -29,12 +32,12 @@ public class AuthController {
         if(token == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token invalid");
         }
-        return ResponseEntity.ok().body(token);
+        return token;
     }
 
-    @Operation(summary = "Refresh token for authenticated user and returns a token")
     @PutMapping("/refresh/{username}")
-    public ResponseEntity<?> refreshToken(@PathVariable("username") String username, @RequestHeader("Authorization") String refreshToken ) {
+    @Override
+    public ResponseEntity<?> refreshToken(@PathVariable("username") String username, @RequestHeader("Authorization") String refreshToken) {
         if(parametersAreInvalid(username, refreshToken)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Credencials invalid");
         }
@@ -42,7 +45,14 @@ public class AuthController {
         if(token == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Token invalid");
         }
-        return ResponseEntity.ok().body(token);
+        return token;
+    }
+
+    @PostMapping(value = "/createUser", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YAML_VALUE})
+    @Override
+    public UserCredentialsDTO create(@RequestBody UserCredentialsDTO credentials) {
+        return authService.create(credentials);
     }
 
     private boolean parametersAreInvalid(String username, String refreshToken) {

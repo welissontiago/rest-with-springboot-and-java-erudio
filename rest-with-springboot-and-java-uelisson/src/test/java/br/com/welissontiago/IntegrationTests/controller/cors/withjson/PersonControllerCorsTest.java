@@ -1,6 +1,8 @@
 package br.com.welissontiago.IntegrationTests.controller.cors.withjson;
 
 import br.com.welissontiago.IntegrationTests.dto.PersonDTO;
+import br.com.welissontiago.IntegrationTests.dto.TokenDTO;
+import br.com.welissontiago.IntegrationTests.dto.UserCredentialsDTO;
 import br.com.welissontiago.IntegrationTests.testcontainers.AbstractIntegrationTest;
 import br.com.welissontiago.configs.TestConfigs;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,6 +28,7 @@ class PersonControllerCorsTest extends AbstractIntegrationTest {
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
     private static PersonDTO person;
+    private static TokenDTO tokenDto;
 
 
     @BeforeAll
@@ -33,15 +36,40 @@ class PersonControllerCorsTest extends AbstractIntegrationTest {
         objectMapper = new ObjectMapper();
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         person = new PersonDTO();
+        tokenDto = new TokenDTO();
     }
 
     @Test
     @Order(1)
+    void signin() {
+        UserCredentialsDTO credentials =
+                new UserCredentialsDTO("leandro", "admin123");
+
+        tokenDto = given()
+                .basePath("/auth/signin")
+                .port(TestConfigs.SERVER_PORT)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(credentials)
+                .when()
+                .post()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(TokenDTO.class);
+
+        assertNotNull(tokenDto.getAccessToken());
+        assertNotNull(tokenDto.getRefreshToken());
+    }
+
+    @Test
+    @Order(2)
     void create() throws JsonProcessingException {
         mockPerson();
         specification = new RequestSpecBuilder()
                 .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_3000)
                 .setBaseUri("http://localhost")
+                .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .setPort(TestConfigs.SERVER_PORT)
                 .setBasePath("/api/person/v1")
                 .addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -78,11 +106,12 @@ class PersonControllerCorsTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     void createWithWrongOrigin() throws JsonProcessingException {
         mockPerson();
         specification = new RequestSpecBuilder()
                 .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_UELISSON)
+                .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .setBaseUri("http://localhost")
                 .setPort(TestConfigs.SERVER_PORT)
                 .setBasePath("/api/person/v1")
@@ -105,10 +134,11 @@ class PersonControllerCorsTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     void findById() throws JsonProcessingException {
         specification = new RequestSpecBuilder()
                 .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCAL)
+                .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .setBaseUri("http://localhost")
                 .setPort(TestConfigs.SERVER_PORT)
                 .setBasePath("/api/person/v1")
@@ -146,10 +176,11 @@ class PersonControllerCorsTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void findByIdWithWrongOrigin() throws JsonProcessingException {
         specification = new RequestSpecBuilder()
                 .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_UELISSON)
+                .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .setBaseUri("http://localhost")
                 .setPort(TestConfigs.SERVER_PORT)
                 .setBasePath("/api/person/v1")

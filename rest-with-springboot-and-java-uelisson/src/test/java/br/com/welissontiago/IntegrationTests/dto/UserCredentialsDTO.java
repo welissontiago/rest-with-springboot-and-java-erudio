@@ -1,10 +1,11 @@
-package br.com.welissontiago.dto.v1.security;
+package br.com.welissontiago.IntegrationTests.dto;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlRootElement
 public class UserCredentialsDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,6 +22,11 @@ public class UserCredentialsDTO implements Serializable {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
+    }
+
+    public UserCredentialsDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {

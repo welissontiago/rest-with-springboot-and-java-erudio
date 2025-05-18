@@ -1,6 +1,8 @@
 package br.com.welissontiago.IntegrationTests.controller.withjson;
 
 import br.com.welissontiago.IntegrationTests.dto.BookDTO;
+import br.com.welissontiago.IntegrationTests.dto.TokenDTO;
+import br.com.welissontiago.IntegrationTests.dto.UserCredentialsDTO;
 import br.com.welissontiago.IntegrationTests.dto.wrapper.json.WrapperBookDTO;
 import br.com.welissontiago.IntegrationTests.testcontainers.AbstractIntegrationTest;
 import br.com.welissontiago.configs.TestConfigs;
@@ -31,13 +33,37 @@ class BookControllerJsonTest extends AbstractIntegrationTest {
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
     private static BookDTO book;
+    private static TokenDTO tokenDto;
 
     @BeforeAll
     static void setUp() {
         objectMapper = new ObjectMapper();
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
+        tokenDto = new TokenDTO();
         book = new BookDTO();
+    }
+
+    @Test
+    @Order(0)
+    void signin() {
+        UserCredentialsDTO credentials =
+                new UserCredentialsDTO("leandro", "admin123");
+
+        tokenDto = given()
+                .basePath("/auth/signin")
+                .port(TestConfigs.SERVER_PORT)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(credentials)
+                .when()
+                .post()
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(TokenDTO.class);
+
+        assertNotNull(tokenDto.getAccessToken());
+        assertNotNull(tokenDto.getRefreshToken());
     }
 
     @Test
@@ -49,6 +75,7 @@ class BookControllerJsonTest extends AbstractIntegrationTest {
                 .addHeader(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCAL)
                 .setBaseUri("http://localhost")
                 .setPort(TestConfigs.SERVER_PORT)
+                .addHeader(TestConfigs.HEADER_PARAM_AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .setBasePath("/api/books/v1")
                 .addFilter(new RequestLoggingFilter(LogDetail.ALL))
                 .addFilter(new ResponseLoggingFilter(LogDetail.ALL))

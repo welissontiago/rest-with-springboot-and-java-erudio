@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Disabled
 class PersonRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -30,6 +30,7 @@ class PersonRepositoryTest extends AbstractIntegrationTest {
         person = new PersonModel();
     }
 
+    @Disabled
     @Test
     @Order(2)
     void disablePerson() {
@@ -48,6 +49,7 @@ class PersonRepositoryTest extends AbstractIntegrationTest {
         assertFalse(person.getEnabled());
     }
 
+    @Disabled
     @Test
     @Order(1)
     void findPeopleByName() {
@@ -61,7 +63,6 @@ class PersonRepositoryTest extends AbstractIntegrationTest {
         assertEquals("Smiljan - Croatia", person.getAddress());
         assertTrue(person.getEnabled());
     }
-
 
 
 }

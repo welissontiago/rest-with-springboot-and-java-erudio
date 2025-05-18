@@ -32,7 +32,7 @@ public class RestWithSpringbootAndJavaUelissonApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RestWithSpringbootAndJavaUelissonApplication.class, args);
 
-		generateHashedPassword();
+		//generateHashedPassword();
 	}
 
 		private static void generateHashedPassword(){
