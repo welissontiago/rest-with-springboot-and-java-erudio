@@ -1,4 +1,4 @@
-name: Continuos Integration and deployment docker with git
+name: Continuous Integration and Deployment with Docker
 
 on:
   push:
@@ -26,10 +26,11 @@ jobs:
         java-version: '21'
         distribution: 'adopt'
         cache: maven
+        cache-dependency-path: ./rest-with-springboot-and-java-erudio/rest-with-springboot-and-java-uelisson/pom.xml
 
     - name: Build application .jar
       working-directory: ./rest-with-springboot-and-java-erudio/rest-with-springboot-and-java-uelisson
-      run:  .\mvnw.cmd clean package #pode dar erro vou apenas deixar comentado pra consertar depois se der erro
+      run:  ./mvnw clean package #pode dar erro vou apenas deixar comentado pra consertar depois se der erro
 
 
     - name: Docker Compose Build
