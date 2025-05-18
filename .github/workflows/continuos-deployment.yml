@@ -29,7 +29,7 @@ jobs:
 
     - name: Build application .jar
       working-directory: ./rest-with-springboot-and-java-uelisson
-      run:  ./mvnw clean package #pode dar erro vou apenas deixar comentado pra consertar depois se der erro
+      run: mvn clean package #pode dar erro vou apenas deixar comentado pra consertar depois se der erro
 
 
     - name: Docker Compose Build
