@@ -21,12 +21,11 @@ jobs:
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
     - name: Setup Java 21
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         java-version: '21'
-        distribution: 'adopt'
+        distribution: 'temurin'
         cache: maven
-        cache-dependency-path: ./rest-with-springboot-and-java-erudio/rest-with-springboot-and-java-uelisson/pom.xml
 
     - name: Build application .jar
       working-directory: ./rest-with-springboot-and-java-erudio/rest-with-springboot-and-java-uelisson
