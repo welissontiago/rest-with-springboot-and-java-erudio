@@ -27,9 +27,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: Give execute permission to mvnw
+      working-directory: ./rest-with-springboot-and-java-uelisson
+      run: chmod +x mvnw
+
     - name: Build application .jar
       working-directory: ./rest-with-springboot-and-java-uelisson
-      run: mvn clean package #pode dar erro vou apenas deixar comentado pra consertar depois se der erro
+      run: ./mvnw clean package
 
 
     - name: Docker Compose Build
