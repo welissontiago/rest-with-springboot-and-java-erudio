@@ -21,19 +21,15 @@ jobs:
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
     - name: Setup Java 21
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v2
       with:
         java-version: '21'
-        distribution: 'temurin'
+        distribution: 'adopt'
         cache: maven
-
-    - name: Give execute permission to mvnw
-      working-directory: ./rest-with-springboot-and-java-uelisson
-      run: chmod +x mvnw
 
     - name: Build application .jar
       working-directory: ./rest-with-springboot-and-java-uelisson
-      run: ./mvnw clean package
+      run: mvn clean package
 
 
     - name: Docker Compose Build
