@@ -28,12 +28,12 @@ jobs:
         cache: maven
 
     - name: Build application .jar
-      working-directory: ./rest-with-springboot-and-java-erudio/rest-with-springboot-and-java-uelisson
+      working-directory: ./rest-with-springboot-and-java-uelisson
       run:  ./mvnw clean package #pode dar erro vou apenas deixar comentado pra consertar depois se der erro
 
 
     - name: Docker Compose Build
-      working-directory: ./rest-with-springboot-and-java-erudio
+      working-directory: .
       run: docker compose build
 
     - name: Push to DockerHub Container Registry
